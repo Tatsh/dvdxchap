@@ -1,0 +1,98 @@
+.TH OGMCAT "1" "November 2004" "ogmcat v1.5" "User Commands"
+.SH NAME
+ogmcat \- Concatenate several OGG/OGM files into one big OGG/OGM file
+.SH SYNOPSIS
+.B ogmcat
+[\fIoptions\fR] \-o \fIoutname\fR \fIinname1\fR [\fIinname2\fR [\fIinname3\fR ...]]
+.SH DESCRIPTION
+.LP
+\fBogmcat does NOT work at the moment. It is work in progress. I included it
+just out of laziness (otherwise I'd have to remove it from the
+Makefile/configure stuff prior to releasing this version).\fR
+.LP
+\fBogmcat\fP can be used to concatenate several OGG/OGM files into one big
+file if they are of the same type. For a more in-depth description refer
+to the \fBLIMITATIONS\fR section.
+.TP
+\fB\-o\fR, \fB\-\-output\fR \fIoutname\fR
+Output to '\fIoutname\fR'.
+.TP
+inname1
+Use '\fIinname1\fR', '\fIinname2\fR' etc as the sources.
+.TP
+\fB\-m\fR, \fB\-\-manualsync\fR \fIn\fR
+Specifies a manual sync value in ms that will be added to each stream's
+presentation timestamps along with the value calculated by the chosen
+sync algorithm (see the \fB\-s\fR option). This option can be used for each
+input file although it has no effect if used for the first one as well.
+.TP
+\fB\-s\fR, \fB\-\-sync\fR \fInr\fR
+Uses sync mode \fInr\fR. Valid values are 0\ \-\ 4. The default value is shown
+on \fBogmcat\fR's help screen.
+.TP
+\fB\-n\fR, \fB\-\-nosafetychecks\fR
+Disable the safety checks made prior to the concatenating. The resulting file
+may be unplayable. See the \fBLIMITATIONS\fR section for further details.
+.TP
+\fB\-v\fR, \fB\-\-verbose\fR
+Be verbose and show each OGG packet.
+Can be used twice to increase verbosity.
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+Show this help.
+.TP
+\fB\-V\fR, \fB\-\-version\fR
+Show version information.
+.SH LIMITATIONS
+Concatenating streams is difficult at the best and might even be impossible.
+Therefore \fBogmcat\fR makes very strict comparisons between the streams
+contained in the input files. The checks done include:
+.TP
+*
+general: All streams with the same serial number must be of the same type
+(video, audio, Vorbis audio or text streams).
+.TP
+*
+general: If a stream exists in one file it \fBmust\fR in the other files
+as well.
+.TP
+*
+video streams: The codec FourCC, width, height and FPS must match.
+.TP
+*
+Vorbis streams: The sample rate and the number of channels must match.
+.TP
+*
+other audio streams: The codec ID, sample rate, bits per sample and number
+of channels must match.
+.TP
+*
+text/subtitle streams: The 'time unit' must match.
+.LP
+The user can forcefully override the last four checks with the \fB\-n\fR
+parameter. The checks marked as 'general' cannot be overridden this way.
+.LP
+Audio/video synchronization might not be ok in the resulting file even if
+the source files were perfectly in sync. The user can experiment with the
+\fB\-s\fR parameter which causes \fBogmcat\fR to use slightly different
+algorithms for calculating the granulepos values for the audio and text
+streams. The range of valid parameters will be printed on \fBogmcat\fR's
+help screen.
+.LP
+If none of the synchronization algorithms provided works correctly then
+the user can also manually add a synchronization offset using the \fB\-m\fR
+option for each input file.
+.SH AUTHOR
+.I ogmcat
+was written by Moritz Bunkus <moritz@bunkus.org>.
+.SH SEE ALSO
+.BR ogmmerge (1),
+.BR ogminfo (1),
+.BR ogmdemux (1),
+.BR ogmsplit (1),
+.BR dvdxchap (1)
+.SH WWW
+The newest version can always be found at
+.UR http://www.bunkus.org/videotools/ogmtools/
+<http://www.bunkus.org/videotools/ogmtools/>
+.UE

@@ -1,0 +1,60 @@
+# Compiled
+# *.com
+*.class
+*.dll
+*.exe
+*.o
+*.so
+*.pyc
+*.pyo
+__pycache__/
+*.egg-info/
+
+# Backups
+*~
+*.swp*
+*.kate-swp
+
+# KDevelop
+.kdev4/
+
+# Miscellaneous
+*.sqlite
+
+# OS generated files
+.directory
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100/
+.Trashes/
+ehthumbs.db
+Thumbs.db
+
+# This project
+*.a
+ogmmerge
+ogminfo
+ogmdemux
+ogmsplit
+ogmcat
+dvdxchap
+*.gz
+.deps
+.libs
+config.cache
+config.h.in
+config.log
+config.status
+stamp-h
+stamp-h.in
+confdefs.h
+*.cache
+Makefile
+Makefile.in
+aclocal.m4
+configure
+install-sh
+missing
+mkinstalldirs
+data

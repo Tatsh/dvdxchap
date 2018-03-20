@@ -1,0 +1,87 @@
+OGMtools 1.5
+==============
+
+--[ IMPORTANT ] ---------------------------------------------------
+Up to version 1.2 ogmmerge produced broken headers. Version 1.2 is
+now able to read both the old headers and the proper new ones and
+will only write proper headers. In order to fix the broken headers
+in old files you can simply run something like:
+ogmmerge -o good.ogm old_and_broken.ogm
+--[ IMPORTANT ] ---------------------------------------------------
+
+These tools allow information about (ogminfo) or extraction
+from (ogmdemux) or creation of (ogmmerge) or the splitting of
+(ogmsplit) OGG media streams. OGM is used for "OGG media streams".
+
+Base code taken from Ogg/Vorbis CVS repository at
+http://www.xiph.org/
+
+Installation is simple. Run './configure' followed by 'make' and
+'make install'. If, for some reason, there is no 'configure' script then
+run './autogen.sh' which will recreate it.
+
+The full documentation for each command is now maintained in its
+man page only. Type 'ogmmerge -h' to get you started.
+
+This code comes under the GPL (see www.gnu.org or the file COPYING).
+Modify as needed.
+
+The newest version can always be found at
+http://www.bunkus.org/videotools/ogmtools/index.html
+
+Moritz Bunkus <moritz@bunkus.org>
+
+------------------
+Example
+=======
+
+Here's a *very* brief example of how you could use the ogmtools
+with mencoder in order to rip a DVD:
+
+a) Extract the audio to PCM audio and let mencoder calculate the
+video frame numbers:
+
+mencoder -dvd 1 -ovc frameno -oac pcm -o frameno.avi
+
+b) Extract the audio again, this time to a plain WAV file:
+
+mplayer -dvd 1 -vc dummy -vo null -hardframedrop -ao pcm -aofile audio.wav
+
+At the moment selecting a non-existant video codec with -vc results
+in the fastest audio dump.
+
+c) Normalize the sound (optional)
+
+normalize audio.wav
+
+d) Encode the audio to Vorbis:
+
+oggenc -q3 -oaudio-q3.ogg audio.wav
+
+e) Somehow calculate the bitrate for your video. Use something like...
+
+video_size = (target_size - audio-size) / 1.0115
+video_bitrate = video_size / length / 1000 * 8
+
+target_size, audio_size in bytes
+length in seconds
+1.0115 is the overhead caused by putting the streams into an OGM file.
+video_bitrate will be in kbit/s
+
+f) Use the two-pass encoding for the video:
+
+mencoder -dvd 1 -oac copy -ovc lavc \
+  -lavcopts vcodec=mpeg4:vbitrate=1000:vhq:vqmin=2:vpass=1 \
+  -vop scale=....,crop=..... \
+  -o /dev/null
+
+mencoder -dvd 1 -oac copy -ovc lavc \
+  -lavcopts vcodec=mpeg4:vbitrate=1000:vhq:vqmin=2:vpass=2 \
+  -vop scale=....,crop=..... \
+  -o movie.avi
+
+g) Merge:
+
+ogmmerge -o movie.ogm -A movie.avi audio-q3.ogg
+
+The option -A should be given to avoid copying the raw PCM audio stream.
