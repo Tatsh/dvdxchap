@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.10.3)
+cmake_minimum_required(VERSION 3.0)
 project(dvdxchap)
 include(GNUInstallDirs)
 
