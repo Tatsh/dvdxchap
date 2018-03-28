@@ -20,7 +20,7 @@
 
 void usage() {
   fprintf(stdout,
-    "ogmtools v" VERSION "\n"
+    "dvdxchap v" VERSION "\n"
     "Usage: dvdxchap [options] DVD-SOURCE\n\n"
     " options:\n"
     "   -t, --title num            Use title 'num'. Default is 1.\n"
@@ -41,20 +41,20 @@ void display_chapters(char *source, int title, int start, int end, int verbose) 
   dvd_time_t     *dt;
   double          fps;
   long            hour, minute, second, ms, overall_time, start_time, cur_time;
-  
+
   dvd = DVDOpen(source);
   if (dvd == NULL) {
     fprintf(stderr, "(%s) Could not open source '%s'.\n", __FILE__, source);
     exit(1);
   }
-  
+
   vmg = ifoOpen(dvd, 0);
   if (vmg == NULL) {
     fprintf(stderr, "(%s) Can't open VMG info.\n", __FILE__);
     DVDClose(dvd);
     exit(1);
   }
-  
+
   tt_srpt = vmg->tt_srpt;
   if (verbose)
     fprintf(stderr, "(%s) This DVD contains %d titles.\n", __FILE__,
@@ -87,7 +87,7 @@ void display_chapters(char *source, int title, int start, int end, int verbose) 
       exit(1);
     }
   }
-  
+
   ttn = tt_srpt->title[title].vts_ttn;
   vts_ptt_srpt = vts->vts_ptt_srpt;
   start_time = overall_time = 0;
@@ -139,7 +139,7 @@ void display_chapters(char *source, int title, int start, int end, int verbose) 
             (overall_time - start_time) % 1000);
     fprintf(stdout, "CHAPTER%02dNAME=Chapter %02d\n", i + 1 - start, i + 1 - start);
   }
-  
+
   ifoClose(vts);
   ifoClose(vmg);
   DVDClose(dvd);
@@ -151,7 +151,7 @@ int main(int argc, char *argv[]) {
   int  i;
   char *source = NULL;
   int  verbose = 0;
-  
+
   if (argc == 1) {
     usage();
     exit(0);
@@ -172,7 +172,7 @@ int main(int argc, char *argv[]) {
       }
       title = strtol(argv[i + 1], NULL, 10);
       if ((errno == ERANGE) || (errno == EINVAL) || (title < 1)) {
-        fprintf(stderr, "(%s) Error: '%s' is not a valid title number.\n", 
+        fprintf(stderr, "(%s) Error: '%s' is not a valid title number.\n",
                 __FILE__, argv[i + 1]);
         exit(1);
       }
@@ -183,7 +183,7 @@ int main(int argc, char *argv[]) {
         exit(1);
       }
       if (sscanf(argv[i + 1], "%d-%d", &start, &end) < 1) {
-        fprintf(stderr, "(%s) Error: '%s' is not a valid chapter range.\n", 
+        fprintf(stderr, "(%s) Error: '%s' is not a valid chapter range.\n",
                 __FILE__, argv[i + 1]);
         exit(1);
       }
