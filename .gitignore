@@ -58,3 +58,4 @@ install-sh
 missing
 mkinstalldirs
 data
+/build/
