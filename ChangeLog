@@ -1,3 +1,17 @@
+2018-03-28 Andrew Udvare
+ * released v1.5.1
+ - Reduce to only dvdxchap
+ - Due to changes with the calculations (retaining double types instead of
+   casting), chapter file output may differ from previous versions by about
+   8-10 ms on each chapter after the first or second. This should not be
+   noticeable.
+ - Build system now uses CMake. Follow README.md to build and install.
+ - Updated man page.
+
+2018-03-20 Andrew Udvare
+ * released v1.5
+ - This is the last version released by Moritz Bunkus left as is.
+
 2004-11-07 Moritz Bunkus
  * released v1.4.2.
  - dvdxchap accepts a range of chapters to output and adjusts the
@@ -12,7 +26,7 @@
 2004-04-14 Moritz Bunkus
  * released v1.4.
  - The MPEG4 key frame detection was broken resulting in unseekable files.
-	
+
 2004-04-13 Andre Hinrichs
  - Fixed some typos.
 
@@ -78,7 +92,7 @@
 2003-05-01 Moritz Bunkus
  - Lots of fixes for endian handling (thanks for the large patch to
    Andreas Schwab <schwab AT suse.de>).
-	
+
 2003-04-25 Moritz Bunkus
  - Fixed a segfault in ogmdemux (thanks to Tilmann Bitterberg).
  - Made the OGM reader more error resiliant if the file is damaged.
@@ -88,7 +102,7 @@
    character on each subtitle entry.
 
 2003-03-01 Moritz Bunkus
- * released v1.0.0 
+ * released v1.0.0
  - Newlines in subtitles are converted to DOS style newlines (\r\n) as
    some Windows players (e.g. BSPlayer) do not cope with a single \n.
  - ogminfo in verbosity mode 2 or above also shows the bitrate in kbit/s
@@ -275,7 +289,7 @@
    syntax.
  - Included avilib in the ogmmerge sources (thanks to Robert Wal
    for the patch).
- 
+
 2002-08-15 Moritz Bunkus
  - First support for SRT subtitles in ogmmerge.
 
