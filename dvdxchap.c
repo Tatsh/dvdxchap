@@ -17,9 +17,8 @@
 #include <dvdread/dvd_reader.h>
 #include <dvdread/ifo_print.h>
 #include <dvdread/ifo_read.h>
-#include <inttypes.h>
 
-void usage() {
+static void usage() {
     fprintf(stdout,
             "dvdxchap v" VERSION "\n"
             "Usage: dvdxchap [options] DVD-SOURCE\n\n"
@@ -32,7 +31,7 @@ void usage() {
             "   -h, --help                Show this help\n");
 }
 
-void display_chapters(
+static int display_chapters(
     char *source, long int title, int start, int end, int verbose) {
     dvd_reader_t *dvd;
     ifo_handle_t *vmg;
@@ -48,14 +47,14 @@ void display_chapters(
     if (dvd == NULL) {
         fprintf(
             stderr, "(%s) Could not open source '%s'.\n", __FILE__, source);
-        exit(1);
+        return 1;
     }
 
     vmg = ifoOpen(dvd, 0);
     if (vmg == NULL) {
         fprintf(stderr, "(%s) Can't open VMG info.\n", __FILE__);
         DVDClose(dvd);
-        exit(1);
+        return 1;
     }
 
     tt_srpt = vmg->tt_srpt;
@@ -72,7 +71,7 @@ void display_chapters(
                 tt_srpt->nr_of_srpts);
         ifoClose(vmg);
         DVDClose(dvd);
-        exit(1);
+        return 1;
     }
     title--;
     if (verbose) {
@@ -88,7 +87,7 @@ void display_chapters(
         fprintf(stderr, "(%s) Can't open VTS info.\n", __FILE__);
         ifoClose(vmg);
         DVDClose(dvd);
-        exit(1);
+        return 1;
     }
 
     if (end > 0) {
@@ -96,7 +95,7 @@ void display_chapters(
             fprintf(stderr, "(%s) Invalid end chapter.\n", __FILE__);
             ifoClose(vmg);
             DVDClose(dvd);
-            exit(1);
+            return 1;
         }
     }
 
@@ -163,9 +162,12 @@ void display_chapters(
                 i + 1 - start);
     }
 
+
     ifoClose(vts);
     ifoClose(vmg);
     DVDClose(dvd);
+
+    return 0;
 }
 
 int main(int argc, char *argv[]) {
@@ -177,23 +179,23 @@ int main(int argc, char *argv[]) {
 
     if (argc == 1) {
         usage();
-        exit(0);
+        return 0;
     }
     for (i = 1; i < argc; i++) {
         if (!strcmp(argv[i], "-h") || !strcmp(argv[i], "--help")) {
             usage();
-            exit(0);
+            return 0;
         } else if (!strcmp(argv[i], "-v") || !strcmp(argv[i], "--verbose"))
             verbose++;
         else if (!strcmp(argv[i], "-V") || !strcmp(argv[i], "--version")) {
             fprintf(stdout, "dvdxchap v" VERSION "\n");
-            exit(0);
+            return 0;
         } else if (!strcmp(argv[i], "-t") || !strcmp(argv[i], "--title")) {
             if ((i + 1) >= argc) {
                 fprintf(stderr,
                         "(%s) Error: -t lacks a title number.\n",
                         __FILE__);
-                exit(1);
+                return 1;
             }
             title = strtol(argv[i + 1], NULL, 10);
             if ((errno == ERANGE) || (errno == EINVAL) || (title < 1)) {
@@ -201,7 +203,7 @@ int main(int argc, char *argv[]) {
                         "(%s) Error: '%s' is not a valid title number.\n",
                         __FILE__,
                         argv[i + 1]);
-                exit(1);
+                return 1;
             }
             i++;
         } else if (!strcmp(argv[i], "-c") || !strcmp(argv[i], "--chapter")) {
@@ -209,14 +211,14 @@ int main(int argc, char *argv[]) {
                 fprintf(stderr,
                         "(%s) Error: -c lacks a chapter number.\n",
                         __FILE__);
-                exit(1);
+                return 1;
             }
             if (sscanf(argv[i + 1], "%d-%d", &start, &end) < 1) {
                 fprintf(stderr,
                         "(%s) Error: '%s' is not a valid chapter range.\n",
                         __FILE__,
                         argv[i + 1]);
-                exit(1);
+                return 1;
             }
             if (start < 0) {
                 end = -start;
@@ -237,17 +239,15 @@ int main(int argc, char *argv[]) {
                 fprintf(stderr,
                         "(%s) Error: more than one source given.\n",
                         __FILE__);
-                exit(1);
+                return 1;
             }
             source = argv[i];
         }
     }
     if (source == NULL) {
         fprintf(stderr, "(%s) Error: No source given.\n", __FILE__);
-        exit(1);
+        return 1;
     }
 
-    display_chapters(source, title, start, end, verbose);
-
-    return 0;
+    return display_chapters(source, title, start, end, verbose);
 }
