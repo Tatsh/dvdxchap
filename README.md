@@ -7,7 +7,7 @@ This program exracts chaper information from a DVD source and displays it in a f
 ## Usage
 
 ```bash
-dvdxchap [-t TITLE] [-c START[-END]] [-v] [-V] [-h]
+dvdxchap [-t TITLE] [-c START[-END]] [-v] [-V] [-h] DVD-SOURCE
 ```
 
 where:
@@ -17,6 +17,7 @@ where:
 * `-v` - Increase verbosity
 * `-V` - Show version infomration
 * `-h` - Show help
+* `DVD-SOURCE` - Path to a DVD file system root.
 
 # Build and install
 
