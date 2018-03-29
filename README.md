@@ -12,6 +12,7 @@ mkdir build
 cd build
 cmake .. -DCMAKE_BUILD_TYPE=Release
 make
+make install
 ```
 
 You can add C flags to the `cmake` invocation with an argument similar to `-DCMAKE_C_FLAGS_RELEASE='-O2 -pipe -march=native -fomit-frame-pointer'`.
