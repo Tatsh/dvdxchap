@@ -1,4 +1,4 @@
-.TH DVDXCHAP "1" "November 2004" "dvdxchap v1.5" "User Commands"
+.TH DVDXCHAP "1" "March 2018" "dvdxchap v1.5.1" "User Commands"
 .SH NAME
 dvdxchap \- Extract chapter information from DVDs
 .SH SYNOPSIS
@@ -7,7 +7,7 @@ dvdxchap \- Extract chapter information from DVDs
 .SH DESCRIPTION
 .LP
 This program extracts chapter information from a DVD and displays
-it in a form usable by \fBogmmerge(1)\fP.
+it in a form usable by tools like \fBmkvmerge(1)\fP.
 .TP
 \fB\-t\fR, \fB\-\-title\fR \fInum\fR
 Use title '\fInum\fR'. Default is 1.
@@ -39,22 +39,14 @@ CHAPTER02NAME=Chapter 02
 etc.
 .LP
 You should pipe its output to a file, edit the chapter names and
-use the resulting file as an input for \fBogmmerge(1)\fP.
+use the resulting file as an input for a tool like \fBmkvmerge(1)\fP.
 .SH AUTHOR
 .I dvdxchap
 was written by Moritz Bunkus <moritz@bunkus.org>. Some ideas were
-taken from Chapter-X-Tractor
-.UR <http://christophe.paris.free.fr/main.php3>
-(<http://christophe.paris.free.fr/main.php3>)
-.UE
-written by Christophe Paris.    
-.SH SEE ALSO
-.BR ogmmerge (1),
-.BR ogmsplit (1),
-.BR ogminfo (1),
-.BR ogmdemux (1)
+taken from Chapter-X-Tractor <http://christophe.paris.free.fr/main.php3>
+written by Christophe Paris.
+.SH MAINTAINER
+This version of \fIdvdxchap\fR is maintained by Andrew Udvare
+<https://github.com/Tatsh>.
 .SH WWW
-The newest version can always be found at
-.UR http://www.bunkus.org/videotools/ogmtools/
-<http://www.bunkus.org/videotools/ogmtools/>
-.UE
+The newest version can be found at <https://github.com/Tatsh/dvdxchap>.
