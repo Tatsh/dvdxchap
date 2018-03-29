@@ -2,11 +2,27 @@
 
 This is only the `dvdxchap` tool from [OGMTools](http://www.bunkus.org/videotools/ogmtools/index.html) by Moritz Bunkus.
 
+This program exracts chaper information from a DVD source and displays it in a form usable by tools like [mkvmerge](https://mkvtoolnix.download/downloads.html).
+
+## Usage
+
+```bash
+dvdxchap [-t TITLE] [-c START[-END]] [-v] [-V] [-h]
+```
+
+where:
+
+* `-t`/`--title` - Specify title number, defaulting to 1.
+* `-c`/`--chapter` - Specify the chapter range (2-4). This adjusts all timecodes so that they start at 0.
+* `-v` - Increase verbosity
+* `-V` - Show version infomration
+* `-h` - Show help
+
 # Build and install
 
-You need to have [CMake]() and [libdvdread](https://github.com/mirror/libdvdread) installed. Run the following commands after cloning the repository:
+You need to have [CMake](https://cmake.org/) and [libdvdread](https://github.com/mirror/libdvdread) installed. Run the following commands after cloning the repository:
 
-```
+```bash
 cd where-project-is-cloned
 mkdir build
 cd build
