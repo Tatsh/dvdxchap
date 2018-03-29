@@ -1,8 +1,8 @@
 # dvdxchap
 
-This is only the `dvdxchap` tool from [OGMTools](http://www.bunkus.org/videotools/ogmtools/index.html) by Moritz Bunkus.
+This is the `dvdxchap` tool from [OGMTools](http://www.bunkus.org/videotools/ogmtools/index.html) by Moritz Bunkus.
 
-This program exracts chaper information from a DVD source and displays it in a form usable by tools like [mkvmerge](https://mkvtoolnix.download/downloads.html).
+This program extracts chaper information from a DVD source and displays it in a form usable by tools like [mkvmerge](https://mkvtoolnix.download/downloads.html).
 
 ## Usage
 
