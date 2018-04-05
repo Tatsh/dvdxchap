@@ -9,6 +9,7 @@
  * http://www.gnu.org/copyleft/gpl.html
  */
 #include <errno.h>
+#include <fenv.h>
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -99,6 +100,9 @@ static int display_chapters(
         }
     }
 
+    const int orig_rounding_mode = fegetround();
+    fesetround(FE_DOWNWARD);
+
     ttn = tt_srpt->title[title].vts_ttn;
     vts_ptt_srpt = vts->vts_ptt_srpt;
     start_time = overall_time = 0;
@@ -133,14 +137,15 @@ static int display_chapters(
             start_time = overall_time;
         }
         if (i >= start && (i < end || end <= 0)) {
+            const double diff = overall_time - start_time;
             fprintf(
                 stdout,
                 "CHAPTER%02d=%02.0f:%02.0f:%02.0f.%03.0f\n",
                 i + 1 - start,
-                (overall_time - start_time) / 60 / 60 / 1000,
-                fmod((overall_time - start_time) / 60 / 1000, 60),
-                fmod((overall_time - start_time) / 1000, 60),
-                floor(1000 * fmod(overall_time - start_time, 1000) / 1000));
+                fabs(diff / 60 / 60 / 1000),
+                fabs(fmod(diff / 60 / 1000, 60)),
+                fabs(fmod(diff / 1000, 60)),
+                fabs(floor(1000 * fmod(diff, 1000) / 1000)));
             fprintf(stdout,
                     "CHAPTER%02dNAME=Chapter %02d\n",
                     i + 1 - start,
@@ -149,23 +154,24 @@ static int display_chapters(
         overall_time += cur_time;
     }
     if (end <= 0 || i == end) {
+        const double diff = overall_time - start_time;
         fprintf(stdout,
                 "CHAPTER%02d=%02.0f:%02.0f:%02.0f.%03.0f\n",
                 i + 1 - start,
-                (overall_time - start_time) / 60 / 60 / 1000,
-                fmod((overall_time - start_time) / 60 / 1000, 60),
-                fmod((overall_time - start_time) / 1000, 60),
-                floor(1000 * fmod(overall_time - start_time, 1000)) / 1000);
+                fabs(diff / 60 / 60 / 1000),
+                fabs(fmod(diff / 60 / 1000, 60)),
+                fabs(fmod(diff / 1000, 60)),
+                fabs(floor(1000 * fmod(overall_time - start_time, 1000)) / 1000));
         fprintf(stdout,
                 "CHAPTER%02dNAME=Chapter %02d\n",
                 i + 1 - start,
                 i + 1 - start);
     }
 
-
     ifoClose(vts);
     ifoClose(vmg);
     DVDClose(dvd);
+    fesetround(orig_rounding_mode);
 
     return 0;
 }
