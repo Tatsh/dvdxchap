@@ -1,3 +1,8 @@
+2018-12-30 Andrew Udvare
+ * released v1.5.3
+ - Fix issue where an hour was getting added randomly;
+   thanks to @surlypants for reporting
+
 2018-03-28 Andrew Udvare
  * released v1.5.1
  - Reduce to only dvdxchap

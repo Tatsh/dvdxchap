@@ -7,7 +7,7 @@ find_path(DVDREAD_DIR dvdread)
 
 include_directories(${DVDREAD_DIR})
 add_compile_options(
-    -DVERSION="1.5.1"
+    -DVERSION="1.5.3"
     -Wno-unknown-attributes
     -fstrict-aliasing
     -fstack-protector
