@@ -141,7 +141,7 @@ static int display_chapters(
             fprintf(stdout,
                     "CHAPTER%02d=%02.0f:%02.0f:%02.0f.%03.0f\n",
                     i + 1 - start,
-                    fabs(diff / 60 / 60 / 1000),
+                    trunc(diff / 60 / 60 / 1000),
                     fabs(fmod(diff / 60 / 1000, 60)),
                     fabs(fmod(diff / 1000, 60)),
                     fabs(floor(1000 * fmod(diff, 1000) / 1000)));
@@ -158,7 +158,7 @@ static int display_chapters(
             stdout,
             "CHAPTER%02d=%02.0f:%02.0f:%02.0f.%03.0f\n",
             i + 1 - start,
-            fabs(diff / 60 / 60 / 1000),
+            trunc(diff / 60 / 60 / 1000),
             fabs(fmod(diff / 60 / 1000, 60)),
             fabs(fmod(diff / 1000, 60)),
             fabs(floor(1000 * fmod(overall_time - start_time, 1000)) / 1000));
